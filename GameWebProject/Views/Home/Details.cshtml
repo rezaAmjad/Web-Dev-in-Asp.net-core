@@ -1,0 +1,53 @@
+﻿@model HomeDetailsViewModel
+@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> userManager;
+@{
+    ViewBag.Title = "Item Details";
+    var photoPath = "~/images/" + (Model.Item.PhotoPath ?? "noimage.jpg");
+}
+@{
+    Console.WriteLine(photoPath);
+}
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.Item.ProductName</h1>
+            </div>
+
+            <div class="card-body text-center">
+                <img class="card-img-top" src="@photoPath"
+                     asp-append-version="true" />
+
+                <h4>Category: @Model.Item.Category</h4>
+                <h4> Platform: @Model.Item.Platform</h4>
+                <h4>Condition: @Model.Item.Condition</h4>
+                <h4>LookingFor: @Model.Item.LookingFor</h4>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-action="index" asp-controller="home" class="btn btn-primary">Back</a>
+
+            </div>
+            @if (signInManager.IsSignedIn(User) && @Model.Item.userId == userManager.GetUserId(User))
+            {
+        <div class="card-footer text-center">
+            <a asp-action="edit" asp-controller="home" class="btn btn-primary" asp-route-id="@Model.Item.Id">Edit</a>
+             <form method="post" asp-action="Delete" asp-controller="home" asp-route-id="@Model.Item.Id" style="padding:5px">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        </div>
+            }
+            else
+            {
+                <div class="card-footer text-center" >
+                    <a asp-action="edit" asp-controller="home" class="btn btn-primary" style="width:auto">Contact Seller</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}
+

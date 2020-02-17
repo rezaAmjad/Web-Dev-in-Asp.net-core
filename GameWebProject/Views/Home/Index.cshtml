@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Item>
+
+@{
+    ViewBag.Title = "Item list";
+}
+<!--
+
+
+<head>
+    <link href="~/css/index.css" rel="stylesheet" />
+</head>
+-->
+
+    <form asp-action="Index" asp-controller="Home" method="Post" style="background-color:aqua; border-bottom:groove">
+        <br />
+        <div class="row input-group">
+            <input type="text" name="search" id="search" class="form-control" style="width: 700px; position:relative;left:100px" />
+            <div class="input-group-btn" style="width: 300px; position:relative;left:125px">
+                <input type="submit" value="search" class="btn btn-primary" />
+            </div>
+        </div>
+        <br />
+    </form>
+
+    <div class="card-deck">
+        <div class="container index_container_header">
+            <div class="row index_row_name">
+
+                <div class="col-2 index_col" style="padding-left:0; padding-right:0">
+                    <h5>Item For Sale</h5>
+                </div>
+
+                <div class="col-10 index_col" style="padding-left:0; padding-right:0"> 
+                    <h5>Seller Looking For</h5>
+                </div>
+            </div>
+        </div>
+        @foreach (var item in Model)
+        {
+            var photoPath = "~/images/" + (item.PhotoPath ?? "noimage.jpg");
+            <div class="container index_container">
+                <div class="row index_row">
+
+                    <div class="col-2 index_col" style="width:auto">
+                        <a asp-controller="home" asp-action="details" asp-route-id="@item.Id" class="btn" style="width:70px">
+                            <img class="card-img-top" src="@photoPath" asp-append-version="true" />
+                        </a>
+                    </div>
+
+                    <div class="col-10 index_col">
+                        @item.LookingFor
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+
